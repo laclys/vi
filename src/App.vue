@@ -2,12 +2,13 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <h1>{{ count }}</h1>
   <h1>{{ double }}</h1>
-  <ul>
+  <h1>X: {{ x }} Y: {{ y }}</h1>
+  <!-- <ul>
     <li v-for="number in numbers" :key="number">
       <h1>{{ number }}</h1>
     </li>
   </ul>
-  <h1>{{ person.name }}</h1>
+  <h1>{{ person.name }}</h1> -->
   <button @click="increase">👆+1</button>
   <button @click="updateGreeting">👆update title</button>
 </template>
@@ -23,7 +24,9 @@ import {
   onUpdated,
   onRenderTriggered,
   watch,
+  onUnmounted,
 } from "vue";
+import useMousePosition from "./hooks/useMousePosition";
 
 interface DataProps {
   count: number;
@@ -44,19 +47,6 @@ export default defineComponent({
     //   count.value++
     // }
 
-    onMounted(() => {
-      console.log("mounted");
-    });
-
-    onUpdated(() => {
-      console.log("updated");
-    });
-
-    onRenderTriggered((event) => {
-      // 调试用
-      console.log("event", event);
-    });
-
     const data: DataProps = reactive({
       count: 0,
       increase: () => {
@@ -71,6 +61,8 @@ export default defineComponent({
       greetings.value += "Hello!";
     };
 
+    const { x, y } = useMousePosition();
+
     // watch([greetings, data], (newValue, oldValue) => {
     watch([greetings, () => data.count], (newValue, oldValue) => {
       document.title = "update" + greetings.value + data.count;
@@ -83,6 +75,8 @@ export default defineComponent({
       ...refData, // 是一个ref类型数据
       greetings,
       updateGreeting,
+      x,
+      y,
     };
   },
 });
