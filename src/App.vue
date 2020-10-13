@@ -3,12 +3,6 @@
   <h1>{{ count }}</h1>
   <h1>{{ double }}</h1>
   <h1>X: {{ x }} Y: {{ y }}</h1>
-  <!-- <ul>
-    <li v-for="number in numbers" :key="number">
-      <h1>{{ number }}</h1>
-    </li>
-  </ul>
-  <h1>{{ person.name }}</h1> -->
   <button @click="increase">👆+1</button>
   <button @click="updateGreeting">👆update title</button>
 </template>
