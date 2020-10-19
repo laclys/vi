@@ -3,6 +3,8 @@
   <h1>{{ count }}</h1>
   <h1>{{ double }}</h1>
   <h1>X: {{ x }} Y: {{ y }}</h1>
+  <h1 v-if="loading">Loading!...</h1>
+  <img v-if="loaded" :src="result.message" />
   <button @click="increase">👆+1</button>
   <button @click="updateGreeting">👆update title</button>
 </template>
@@ -21,6 +23,7 @@ import {
   onUnmounted,
 } from "vue";
 import useMousePosition from "./hooks/useMousePosition";
+import useURLLoader from "./hooks/useURLLoader";
 
 interface DataProps {
   count: number;
@@ -57,6 +60,10 @@ export default defineComponent({
 
     const { x, y } = useMousePosition();
 
+    const { result, loading, loaded } = useURLLoader(
+      "https://dog.ceo/api/breeds/image/random"
+    );
+
     // watch([greetings, data], (newValue, oldValue) => {
     watch([greetings, () => data.count], (newValue, oldValue) => {
       document.title = "update" + greetings.value + data.count;
@@ -71,6 +78,9 @@ export default defineComponent({
       updateGreeting,
       x,
       y,
+      result,
+      loading,
+      loaded,
     };
   },
 });
