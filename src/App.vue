@@ -33,6 +33,11 @@ interface DataProps {
   person: { name?: string };
 }
 
+interface DogResult {
+  message: string;
+  status: string;
+}
+
 export default defineComponent({
   name: "App",
   setup() {
@@ -60,7 +65,7 @@ export default defineComponent({
 
     const { x, y } = useMousePosition();
 
-    const { result, loading, loaded } = useURLLoader(
+    const { result, loading, loaded } = useURLLoader<DogResult>(
       "https://dog.ceo/api/breeds/image/random"
     );
 
