@@ -7,6 +7,8 @@
   <img v-if="loaded" :src="result.message" />
   <button @click="increase">👆+1</button>
   <button @click="updateGreeting">👆update title</button>
+  <button @click="openModal">Open Modal</button><br/>
+  <modal :isOpen="modalIsOpen" @close-modal="onModalClose"> My Modal !!!!</modal>
 </template>
 
 <script lang="ts">
@@ -24,6 +26,7 @@ import {
 } from "vue";
 import useMousePosition from "./hooks/useMousePosition";
 import useURLLoader from "./hooks/useURLLoader";
+import Modal from './components/Modal.vue'
 
 interface DataProps {
   count: number;
@@ -40,6 +43,9 @@ interface DogResult {
 
 export default defineComponent({
   name: "App",
+    components: {
+    Modal
+  },
   setup() {
     // const count = ref(0)
     // const double = computed(() => {
@@ -77,6 +83,16 @@ export default defineComponent({
     data.numbers[0] = 5;
     data.person.name = "Lac";
     const refData = toRefs(data); // 把普通值转成响应值
+
+    const modalIsOpen = ref(false)
+    const openModal = () => {
+      modalIsOpen.value = true
+    }
+    const onModalClose = () => {
+      modalIsOpen.value = false
+    }
+
+
     return {
       ...refData, // 是一个ref类型数据
       greetings,
@@ -86,6 +102,9 @@ export default defineComponent({
       result,
       loading,
       loaded,
+      modalIsOpen,
+      openModal,
+      onModalClose
     };
   },
 });
